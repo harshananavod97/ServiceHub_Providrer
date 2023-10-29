@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
-import 'package:servicehubprovider/screen/appoinmentSecondTaskScreen.dart';
+import 'package:servicehubprovider/screen/appoinments/appoinmentSecondTaskScreen.dart';
 import 'package:servicehubprovider/styles.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,16 +18,23 @@ class AppoinmentFirstTaskScreen extends StatefulWidget {
 }
 
 class _AppoinmentFirstTaskScreenState extends State<AppoinmentFirstTaskScreen> {
+
   Apicontroller apicontroller = Apicontroller();
+  final dateControlleer = TextEditingController();
+  final timeControlleer = TextEditingController();
+  final budgetControlleer = TextEditingController();
+
+
+  AutovalidateMode switched = AutovalidateMode.disabled;
+
+
   final _timeformKey = GlobalKey<FormState>();
   final _dateformKey = GlobalKey<FormState>();
   final _budgetformKey = GlobalKey<FormState>();
 
-  final _additionalinformation = GlobalKey<FormState>();
-  AutovalidateMode switched = AutovalidateMode.disabled;
-  final dateControlleer = TextEditingController();
-  final timeControlleer = TextEditingController();
-  final budgetControlleer = TextEditingController();
+  
+  
+
 
   final dateFocusNode = FocusNode();
   final timeFocusNode = FocusNode();

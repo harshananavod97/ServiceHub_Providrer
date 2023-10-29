@@ -5,9 +5,9 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:logger/logger.dart';
 
 import 'package:servicehubprovider/controller/auth_conroller.dart';
-import 'package:servicehubprovider/screen/fb_and_google_verification.dart';
-import 'package:servicehubprovider/screen/login_screen.dart';
-import 'package:servicehubprovider/screen/main_screen.dart';
+import 'package:servicehubprovider/screen/onborading%20Screens/fb_and_google_verification.dart';
+import 'package:servicehubprovider/screen/onborading%20Screens/login_screen.dart';
+import 'package:servicehubprovider/screen/Main%20Screens/Drawer.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,13 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
-import 'package:servicehubprovider/model/PastAppoinments.dart';
 import 'package:servicehubprovider/model/PendingAppoiments.dart';
 import 'package:servicehubprovider/model/QuiedAppoiment.dart';
-import 'package:servicehubprovider/screen/appoinment_complete_screen.dart';
 import 'package:servicehubprovider/styles.dart';
 import 'package:servicehubprovider/utils/constant.dart';
 import 'package:http/http.dart' as http;
@@ -31,16 +27,27 @@ class AppoinmentSecondTaskScreen extends StatefulWidget {
 
 class _AppoinmentSecondTaskScreenState
     extends State<AppoinmentSecondTaskScreen> {
+
+Apicontroller apicontroller = Apicontroller();
+
+
+//Get Fcm Key
+
   String fcmkey = "";
   getcustomerdata() async {
     final customerdetails = await SharedPreferences.getInstance();
     setState(() {
       fcmkey = customerdetails.getString('fcm_key').toString();
     });
-    print("fcm key is = " + fcmkey);
+    // print("fcm key is = " + fcmkey);
   }
 
+
+
+//load Provider Details
   String providername = "";
+
+
   getproviderrdata() async {
     final providerdetails = await SharedPreferences.getInstance();
     setState(() {
@@ -51,36 +58,11 @@ class _AppoinmentSecondTaskScreenState
     });
   }
 
-  String providerid = "";
-  String service_category_id = "";
-  getUserData() async {
-    final ids = await SharedPreferences.getInstance();
-    final idss = await SharedPreferences.getInstance();
 
-    print("getcustomerdata called " + ids.getString('full_name').toString());
-    setState(() {
-      ids.getString("id").toString().isNotEmpty
-          ? providerid = ids.getString("id").toString()
-          : providerid = idss.getString("id").toString();
 
-      service_category_id = idss.getString("servicecatergoryid").toString();
-    });
-
-    print("my id is " + providerid);
-    print("my service is " + service_category_id);
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    getUserData();
-    getproviderrdata();
-
-    super.initState();
-  }
-
-  Apicontroller apicontroller = Apicontroller();
+//New Appoinments
   List<QueiedApoinmentList> apoinmentlist = [];
+
   Future<List<QueiedApoinmentList>> getQueiedApoiment(String id) async {
     apoinmentlist.clear();
     var url = Uri.parse(
@@ -107,6 +89,10 @@ class _AppoinmentSecondTaskScreenState
       throw Exception('Failed to load data');
     }
   }
+
+
+
+  //Pending Appoinments Screen
 
   List<PendingApoinmentList> pendingapoinmentlist = [];
   Future<List<PendingApoinmentList>> getPendingApoiment(String id) async {
@@ -136,6 +122,48 @@ class _AppoinmentSecondTaskScreenState
     }
   }
 
+
+
+
+//Load Provider Id And  service Catergory Id
+
+
+  String providerid = "";
+  String service_category_id = "";
+
+  getUserData() async {
+    final ids = await SharedPreferences.getInstance();
+    final idss = await SharedPreferences.getInstance();
+
+    // print("getcustomerdata called " + ids.getString('full_name').toString());
+    setState(() {
+      ids.getString("id").toString().isNotEmpty
+          ? providerid = ids.getString("id").toString()
+          : providerid = idss.getString("id").toString();
+
+      service_category_id = idss.getString("servicecatergoryid").toString();
+    });
+
+    // print("my id is " + providerid);
+    // print("my service is " + service_category_id);
+  }
+
+
+  
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getUserData();
+    getproviderrdata();
+
+    super.initState();
+  }
+
+ 
+ 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +181,7 @@ class _AppoinmentSecondTaskScreenState
                         Stack(
                       children: [
                         apoinmentlist.isEmpty
-                            ? Center(child: const CircularProgressIndicator())
+                            ? const Center(child: CircularProgressIndicator())
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -180,7 +208,7 @@ class _AppoinmentSecondTaskScreenState
                                     snapshot.data![widget.index].serviceCategory
                                         .name
                                         .toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: 'Segoe UI',
                                       fontSize: 20.0,
                                       color: darkText,
@@ -190,19 +218,11 @@ class _AppoinmentSecondTaskScreenState
                                   const SizedBox(
                                     height: 4,
                                   ),
-                                  // Text(
-                                  //   'Water tap fix',
-                                  //   style: TextStyle(
-                                  //     fontFamily: 'Segoe UI',
-                                  //     fontSize: 12.0,
-                                  //     color: lightGrey,
-                                  //     fontWeight: FontWeight.w600,
-                                  //   ),
-                                  // ),
+                                 
                                   const SizedBox(
                                     height: 18,
                                   ),
-                                  Text(
+                                  const Text(
                                     'Confirmed for',
                                     style: TextStyle(
                                       fontFamily: 'Segoe UI',
@@ -213,7 +233,7 @@ class _AppoinmentSecondTaskScreenState
                                   ),
                                   Text(
                                     widget.date,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: 'Segoe UI',
                                       fontSize: 20.0,
                                       color: darkText,
@@ -222,7 +242,7 @@ class _AppoinmentSecondTaskScreenState
                                   ),
                                   Text(
                                     widget.time,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: 'Segoe UI',
                                       fontSize: 12.0,
                                       color: lightGrey,
@@ -318,7 +338,7 @@ class _AppoinmentSecondTaskScreenState
                         Stack(
                       children: [
                         pendingapoinmentlist.isEmpty
-                            ? Center(child: const CircularProgressIndicator())
+                            ? const Center(child: CircularProgressIndicator())
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -345,7 +365,7 @@ class _AppoinmentSecondTaskScreenState
                                     snapshot.data![widget.index].serviceCategory
                                         .name
                                         .toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: 'Segoe UI',
                                       fontSize: 20.0,
                                       color: darkText,
@@ -367,7 +387,7 @@ class _AppoinmentSecondTaskScreenState
                                   const SizedBox(
                                     height: 18,
                                   ),
-                                  Text(
+                                  const Text(
                                     'Confirmed for',
                                     style: TextStyle(
                                       fontFamily: 'Segoe UI',
@@ -378,7 +398,7 @@ class _AppoinmentSecondTaskScreenState
                                   ),
                                   Text(
                                     widget.date,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: 'Segoe UI',
                                       fontSize: 20.0,
                                       color: darkText,
@@ -387,7 +407,7 @@ class _AppoinmentSecondTaskScreenState
                                   ),
                                   Text(
                                     widget.time,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: 'Segoe UI',
                                       fontSize: 12.0,
                                       color: lightGrey,
@@ -421,27 +441,7 @@ class _AppoinmentSecondTaskScreenState
                           bottom: 0,
                           child: ElevatedButton(
                             onPressed: () {
-                              // Navigator.of(context).push(MaterialPageRoute(
-                              //     builder: (BuildContext context) =>
-                              //         const AppoinmentCompleteScreen()));\\
-//******************************************************************************************************************************************** */
-//dought have
-                              // apicontroller.UpadateRequest(
-                              //     snapshot.data![widget.index].jobRequest.id
-                              //             .toString()
-                              //             .isEmpty
-                              //         ? "0"
-                              //         : snapshot
-                              //             .data![widget.index].jobRequest.id
-                              //             .toString(),
-                              //     providerid.toString(),
-                              //     snapshot.data![widget.index].id.toString(),
-                              //     widget.time,
-                              //     widget.budget,
-                              //     'jj',
-                              //     'selected',
-                              //     context);
-                              // apicontroller.updateProviderDetails(id, full_name, email, phone_number, nic, address_1, address_2, city, service_category_id, description, password, context)
+                            
                             },
                             // ignore: sort_child_properties_last
                             child: const Padding(
@@ -517,7 +517,7 @@ class _AppoinmentSecondTaskScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Confirmed budget',
           style: TextStyle(
             fontFamily: 'Segoe UI',
@@ -526,12 +526,12 @@ class _AppoinmentSecondTaskScreenState
             fontWeight: FontWeight.w600,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         Text(
           'LKR ' + double.parse(budget).toStringAsFixed(2),
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Segoe UI',
             fontSize: 20.0,
             color: Color(0xFF828282),

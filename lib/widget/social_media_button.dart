@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/utils/constant_image.dart';
 
 class SocialMediaButtons extends StatelessWidget {

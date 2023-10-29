@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:servicehubprovider/Colors.dart';
-import 'package:servicehubprovider/screen/allnewAppoinments.dart';
-import 'package:servicehubprovider/screen/appontment_screen.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
+import 'package:servicehubprovider/screen/appoinments/allnewAppoinments.dart';
 import 'package:servicehubprovider/widget/rounded_border_button.dart';
 import 'package:servicehubprovider/widget/rounded_button.dart';
-
-import 'main_screen.dart';
+import '../Main Screens/Drawer.dart';
 
 class AppoinmentCompleteScreen extends StatelessWidget {
   const AppoinmentCompleteScreen({super.key});
@@ -65,7 +61,7 @@ class AppoinmentCompleteScreen extends StatelessWidget {
                       onPress: () {
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: (context) => AllnewAppoinments()),
+                                builder: (context) => const AllnewAppoinments()),
                             (route) => true);
                       },
                     ),
@@ -79,7 +75,7 @@ class AppoinmentCompleteScreen extends StatelessWidget {
                       onPress: () {
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: (context) => MainScreen()),
+                                builder: (context) => const MainScreen()),
                             (route) => false);
                       },
                     ),

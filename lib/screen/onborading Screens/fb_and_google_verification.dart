@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
 import 'package:servicehubprovider/provider/auth_provider.dart';
-import 'package:servicehubprovider/screen/main_screen.dart';
-
 import 'package:servicehubprovider/widget/rounded_button.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'login_screen.dart';
 
+// ignore: camel_case_types
 class fbgooglePhoneNumberValidation extends StatefulWidget {
   const fbgooglePhoneNumberValidation({super.key});
 
@@ -20,11 +16,10 @@ class fbgooglePhoneNumberValidation extends StatefulWidget {
       _fbgooglePhoneNumberValidationState();
 }
 
+// ignore: camel_case_types
 class _fbgooglePhoneNumberValidationState
     extends State<fbgooglePhoneNumberValidation> {
-  Apicontroller apicontroller = Apicontroller();
-  final _emailformKey = GlobalKey<FormState>();
-  final _fullnameformKey = GlobalKey<FormState>();
+  
   final _phonenoformKey = GlobalKey<FormState>();
   final _nicformKey = GlobalKey<FormState>();
   final _address1formKey = GlobalKey<FormState>();
@@ -33,27 +28,30 @@ class _fbgooglePhoneNumberValidationState
   final _cityformKey = GlobalKey<FormState>();
   final _descriptionformKey = GlobalKey<FormState>();
 
+
+  Apicontroller apicontroller = Apicontroller();
   final fullNameControlleer = TextEditingController();
   final phoneNumberControlleer = TextEditingController();
-  final NicControlleer = TextEditingController();
+  final niccontroller = TextEditingController();
   final emailControlleer = TextEditingController();
   final cityControlleer = TextEditingController();
   final address1Controlleer = TextEditingController();
   final address2Controlleer = TextEditingController();
-  final ServicecatergoryIdControlleer = TextEditingController();
+  final serivicecatergoryIdcontroller = TextEditingController();
   final descriptionControlleer = TextEditingController();
+
   AutovalidateMode switched = AutovalidateMode.disabled;
 
   final fullNameFocusNode = FocusNode();
   final phoneNumberFocusNode = FocusNode();
   final emailFocusNode = FocusNode();
-  final NicFocusNode = FocusNode();
+  final nicFocusNode = FocusNode();
 
   final cityFocusNode = FocusNode();
-  final Address1FocusNode = FocusNode();
-  final Address2FocusNode = FocusNode();
-  final ServiceCatergoryIdFocusNode = FocusNode();
-  final DescriptionFocusNode = FocusNode();
+  final address1 = FocusNode();
+  final address2 = FocusNode();
+  final servicecatrgogrId = FocusNode();
+  final descriptionfocusnode = FocusNode();
 
   @override
   void dispose() {
@@ -64,18 +62,18 @@ class _fbgooglePhoneNumberValidationState
     fullNameControlleer.dispose();
     phoneNumberControlleer.dispose();
     emailControlleer.dispose();
-    NicControlleer.dispose();
-    NicFocusNode.dispose();
+    niccontroller.dispose();
+    nicFocusNode.dispose();
     address1Controlleer.dispose();
     address2Controlleer.dispose();
     cityControlleer.dispose();
-    ServicecatergoryIdControlleer.dispose();
+    serivicecatergoryIdcontroller.dispose();
     descriptionControlleer.dispose();
-    DescriptionFocusNode.dispose();
-    Address1FocusNode.dispose();
-    Address2FocusNode.dispose();
+    descriptionfocusnode.dispose();
+    address1.dispose();
+    address2.dispose();
     cityFocusNode.dispose();
-    ServiceCatergoryIdFocusNode.dispose();
+    servicecatrgogrId.dispose();
   }
 
   String customerid = '';
@@ -84,8 +82,6 @@ class _fbgooglePhoneNumberValidationState
     final ids = await SharedPreferences.getInstance();
     customerid = ids.getString("id").toString();
     print("my id is" + customerid);
-
-    //await prefs.setBool('isLogged', false);
   }
 
   @override
@@ -99,7 +95,7 @@ class _fbgooglePhoneNumberValidationState
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 const Text(
@@ -109,7 +105,7 @@ class _fbgooglePhoneNumberValidationState
                 const SizedBox(
                   height: 22,
                 ),
-                Text(
+                const Text(
                   "Phone Number",
                   style: labelText,
                 ),
@@ -166,9 +162,9 @@ class _fbgooglePhoneNumberValidationState
                       }
                       return null;
                     },
-                    controller: NicControlleer,
+                    controller: niccontroller,
                     keyboardType: TextInputType.text,
-                    focusNode: NicFocusNode,
+                    focusNode: nicFocusNode,
                     style: const TextStyle(
                         fontFamily: 'Segoe UI', fontSize: 20, color: lightText),
                     decoration: formInputStyle,
@@ -198,7 +194,7 @@ class _fbgooglePhoneNumberValidationState
                     },
                     controller: address1Controlleer,
                     keyboardType: TextInputType.text,
-                    focusNode: Address1FocusNode,
+                    focusNode: address1,
                     style: const TextStyle(
                         fontFamily: 'Segoe UI', fontSize: 20, color: lightText),
                     decoration: formInputStyle,
@@ -228,7 +224,7 @@ class _fbgooglePhoneNumberValidationState
                     },
                     controller: address2Controlleer,
                     keyboardType: TextInputType.text,
-                    focusNode: Address2FocusNode,
+                    focusNode: address2,
                     style: const TextStyle(
                         fontFamily: 'Segoe UI', fontSize: 20, color: lightText),
                     decoration: formInputStyle,
@@ -286,9 +282,9 @@ class _fbgooglePhoneNumberValidationState
                       }
                       return null;
                     },
-                    controller: ServicecatergoryIdControlleer,
+                    controller: serivicecatergoryIdcontroller,
                     keyboardType: TextInputType.number,
-                    focusNode: ServiceCatergoryIdFocusNode,
+                    focusNode: servicecatrgogrId,
                     style: const TextStyle(
                         fontFamily: 'Segoe UI', fontSize: 20, color: lightText),
                     decoration: formInputStyle,
@@ -319,13 +315,13 @@ class _fbgooglePhoneNumberValidationState
                     },
                     controller: descriptionControlleer,
                     keyboardType: TextInputType.text,
-                    focusNode: DescriptionFocusNode,
+                    focusNode: descriptionfocusnode,
                     style: const TextStyle(
                         fontFamily: 'Segoe UI', fontSize: 20, color: lightText),
                     decoration: formInputStyle,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 RoundedButton(
@@ -349,30 +345,32 @@ class _fbgooglePhoneNumberValidationState
                         _nicformKey.currentState!.validate() &&
                         _descriptionformKey.currentState!.validate() &&
                         _servicecategoryidformKey.currentState!.validate()) {
+                          //facebook
                       await value.favalable
                           ? apicontroller.fbgoogleregister(
                               value.femail.text,
                               value.fusername.text,
                               phoneNumberControlleer.text,
                               cityControlleer.text,
-                              ServicecatergoryIdControlleer.text,
+                              serivicecatergoryIdcontroller.text,
                               descriptionControlleer.text,
                               address1Controlleer.text,
                               address2Controlleer.text,
-                              NicControlleer.text,
+                              niccontroller.text,
                               'mmmmmmm',
                               context)
+                              //google
                           : await value.gavalable
                               ? apicontroller.fbgoogleregister(
                                   value.gemail.text,
                                   value.gusername.text,
                                   phoneNumberControlleer.text,
                                   cityControlleer.text,
-                                  ServicecatergoryIdControlleer.text,
+                                  serivicecatergoryIdcontroller.text,
                                   descriptionControlleer.text,
                                   address1Controlleer.text,
                                   address2Controlleer.text,
-                                  NicControlleer.text,
+                                  niccontroller.text,
                                   'mmmmmmm',
                                   context)
                               : showDialog(
@@ -389,7 +387,7 @@ class _fbgooglePhoneNumberValidationState
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      LoginScreen(),
+                                                      const LoginScreen(),
                                                 ));
                                           },
                                         ),
@@ -398,67 +396,9 @@ class _fbgooglePhoneNumberValidationState
                                   },
                                 );
                     }
-
-                    // isValidPhoneNumber(phoneNumberControlleer.text)
-                    //     ? await value.favalable
-                    //         ? apicontroller.fbgoogleregister(
-                    //             value.femail.text,
-                    //             phoneNumberControlleer.text,
-                    //             value.fusername.text,
-                    //             context)
-                    //         : await value.gavalable
-                    //             ? apicontroller.fbgoogleregister(
-                    //                 value.gemail.text,
-                    //                 phoneNumberControlleer.text,
-                    //                 value.gusername.text,
-                    //                 context)
-                    //             : showDialog(
-                    //                 context: context,
-                    //                 builder: (BuildContext context) {
-                    //                   return AlertDialog(
-                    //                     title: const Text(
-                    //                         'Your Registration Failed '),
-                    //                     actions: <Widget>[
-                    //                       ElevatedButton(
-                    //                         child: const Text('OK'),
-                    //                         onPressed: () {
-                    //                           Navigator.push(
-                    //                               context,
-                    //                               MaterialPageRoute(
-                    //                                 builder: (context) =>
-                    //                                     LoginScreen(),
-                    //                               ));
-                    //                         },
-                    //                       ),
-                    //                     ],
-                    //                   );
-                    //                 },
-                    //               )
-                    //     : showDialog(
-                    //         context: context,
-                    //         builder: (BuildContext context) {
-                    //           return AlertDialog(
-                    //             title: const Text('Enter valid phonenumber'),
-                    //             actions: <Widget>[
-                    //               ElevatedButton(
-                    //                 child: const Text('OK'),
-                    //                 onPressed: () {
-                    //                   Navigator.of(context).pop();
-                    //                 },
-                    //               ),
-                    //             ],
-                    //           );
-                    //         },
-                    //       );
-
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: (BuildContext context) =>
-                    //
-                    //
-                    //       const RegisterScreen()));
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
               ]),
@@ -489,13 +429,6 @@ class _fbgooglePhoneNumberValidationState
         const SizedBox(
           height: 8,
         ),
-        // TextFormField(
-        //     controller: controller,
-        //     keyboardType: inputType,
-        //     focusNode: focusNode,
-        //     style: const TextStyle(
-        //         fontFamily: 'Segoe UI', fontSize: 20, color: lightText),
-        //     decoration: formInputStyle),
       ],
     );
   }

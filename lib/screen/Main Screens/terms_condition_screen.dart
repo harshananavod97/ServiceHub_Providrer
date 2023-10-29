@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 
 class TermsConditionScreen extends StatefulWidget {
   const TermsConditionScreen({super.key});

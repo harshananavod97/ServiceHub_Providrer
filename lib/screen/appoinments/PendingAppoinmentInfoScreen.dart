@@ -1,13 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
 import 'package:servicehubprovider/model/PendingAppoiments.dart';
-import 'package:servicehubprovider/model/QuiedAppoiment.dart';
-import 'package:servicehubprovider/screen/appoinment_first_task_screen.dart';
-import 'package:servicehubprovider/Notifications/getfcm.dart';
 import 'package:servicehubprovider/utils/constant.dart';
 import 'package:servicehubprovider/widget/rounded_button.dart';
 import 'package:http/http.dart' as http;
@@ -24,7 +20,10 @@ class PendingAppoimentScreen extends StatefulWidget {
 }
 
 class _PendingAppoimentScreenState extends State<PendingAppoimentScreen> {
+  Apicontroller apicontroller = Apicontroller();
   String fcmkey = "";
+
+
   getcustomerdata() async {
     final customerdetails = await SharedPreferences.getInstance();
     setState(() {
@@ -32,39 +31,10 @@ class _PendingAppoimentScreenState extends State<PendingAppoimentScreen> {
     });
   }
 
-  void _incrementCounter() async {
-    String? fcmKey = await getFcmToken();
-    print('FCM Key : $fcmKey');
-  }
+//get pending Appoinments
 
-  Position? currentPosition;
-  Apicontroller apicontroller = Apicontroller();
 
-  String providerid = "";
-  getUserData() async {
-    final ids = await SharedPreferences.getInstance();
-    final idss = await SharedPreferences.getInstance();
-
-    print("getcustomerdata called " + ids.getString('full_name').toString());
-    setState(() {
-      ids.getString("id").toString().isNotEmpty
-          ? providerid = ids.getString("id").toString()
-          : providerid = idss.getString("id").toString();
-    });
-
-    print("my id is " + providerid);
-
-    apicontroller.getproviderdetails(providerid);
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    getUserData();
-    super.initState();
-  }
-
-  List<PendingApoinmentList> pendingapoinmentlist = [];
+List<PendingApoinmentList> pendingapoinmentlist = [];
   Future<List<PendingApoinmentList>> getPendingApoiment(String id) async {
     pendingapoinmentlist.clear();
     var url = Uri.parse(
@@ -91,6 +61,35 @@ class _PendingAppoimentScreenState extends State<PendingAppoimentScreen> {
       throw Exception('Failed to load data');
     }
   }
+
+  Position? currentPosition;
+  
+//Load Provider Id and details
+  String providerid = "";
+  getUserData() async {
+    final ids = await SharedPreferences.getInstance();
+    final idss = await SharedPreferences.getInstance();
+
+    print("getcustomerdata called " + ids.getString('full_name').toString());
+    setState(() {
+      ids.getString("id").toString().isNotEmpty
+          ? providerid = ids.getString("id").toString()
+          : providerid = idss.getString("id").toString();
+    });
+
+    print("my id is " + providerid);
+
+    apicontroller.getproviderdetails(providerid);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getUserData();
+    super.initState();
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +136,7 @@ class _PendingAppoimentScreenState extends State<PendingAppoimentScreen> {
                     fcmkey, "Cancle The Job", "Cancle  job", 'no');
                 //========================================================================================
               },
-              child: Padding(
+              child: const Padding(
                 padding: EdgeInsets.only(top: 10, right: 25),
                 child: Text(
                   'Cancel',
@@ -160,7 +159,7 @@ class _PendingAppoimentScreenState extends State<PendingAppoimentScreen> {
           builder: (context,
                   AsyncSnapshot<List<PendingApoinmentList>> snapshot) =>
               pendingapoinmentlist.isEmpty
-                  ? Center(child: const CircularProgressIndicator())
+                  ? const Center(child: CircularProgressIndicator())
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -177,7 +176,7 @@ class _PendingAppoimentScreenState extends State<PendingAppoimentScreen> {
                                     .data![widget.index]
                                     .serviceCategory
                                     .createdAt),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Segoe UI',
                               fontSize: 12.0,
                               color: lightGrey,
@@ -202,7 +201,7 @@ class _PendingAppoimentScreenState extends State<PendingAppoimentScreen> {
                           Text(
                             snapshot.data![widget.index].serviceCategory.name
                                 .toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Segoe UI',
                               fontSize: 20.0,
                               color: darkText,
@@ -241,7 +240,7 @@ class _PendingAppoimentScreenState extends State<PendingAppoimentScreen> {
                                 .format(snapshot
                                     .data![widget.index].appointmentDateTime)
                                 .toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Segoe UI',
                               fontSize: 20.0,
                               color: darkText,

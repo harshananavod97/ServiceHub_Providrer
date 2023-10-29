@@ -1,19 +1,14 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'package:servicehubprovider/api/api_controller.dart';
 import 'package:servicehubprovider/model/PastAppoinments.dart';
 import 'package:servicehubprovider/model/PendingAppoiments.dart';
-import 'package:servicehubprovider/model/QuiedAppoiment.dart';
-import 'package:servicehubprovider/screen/main_screen.dart';
-
+import 'package:servicehubprovider/screen/Main%20Screens/Drawer.dart';
 import 'package:servicehubprovider/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/widget/appoinment_card.dart';
 
 class CashScreen extends StatefulWidget {
@@ -29,28 +24,22 @@ class _CashScreenState extends State<CashScreen> {
   Apicontroller apicontroller = Apicontroller();
 
   String providerid = "";
+
+  //Get User iD
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
     final idss = await SharedPreferences.getInstance();
 
-    print("getcustomerdata called " + ids.getString('full_name').toString());
     setState(() {
       ids.getString("id").toString().isNotEmpty
           ? providerid = ids.getString("id").toString()
           : providerid = idss.getString("id").toString();
     });
 
-    print("my id is " + providerid);
-
     apicontroller.getproviderdetails(providerid);
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    getUserData();
-    super.initState();
-  }
+//Get Past Appoinments
 
   List<PastApoinmentList> pastapoinmentlist = [];
   Future<List<PastApoinmentList>> getpastappinments(String id) async {
@@ -79,6 +68,8 @@ class _CashScreenState extends State<CashScreen> {
       throw Exception('Failed to load data');
     }
   }
+
+//Get Pending Appoinments
 
   List<PendingApoinmentList> pendingapoinmentlist = [];
   Future<List<PendingApoinmentList>> getPendingApoiment(String id) async {
@@ -109,6 +100,12 @@ class _CashScreenState extends State<CashScreen> {
   }
 
   @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -128,25 +125,11 @@ class _CashScreenState extends State<CashScreen> {
             onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MainScreen(),
+                  builder: (context) => const MainScreen(),
                 )),
           ),
         ),
         title: const Text('Back'),
-        actions: const [
-          // Padding(
-          //   padding: EdgeInsets.only(top: 10, right: 25),
-          //   child: Text(
-          //     'Cancel',
-          //     style: TextStyle(
-          //       fontFamily: 'Segoe UI',
-          //       fontSize: 22.0,
-          //       color: Color(0xFFEA4600),
-          //       fontWeight: FontWeight.w600,
-          //     ),
-          //   ),
-          // ),
-        ],
       ),
       backgroundColor: white,
       body: SingleChildScrollView(
@@ -163,7 +146,7 @@ class _CashScreenState extends State<CashScreen> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             FutureBuilder(
@@ -171,7 +154,7 @@ class _CashScreenState extends State<CashScreen> {
                 builder:
                     (context, AsyncSnapshot<List<PastApoinmentList>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: const CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                     final itemCount =
                         snapshot.data!.length > 5 ? 5 : snapshot.data!.length;
@@ -205,13 +188,13 @@ class _CashScreenState extends State<CashScreen> {
                                       .data![index].serviceCategory.name
                                       .toString(),
                                 )
-                              : SizedBox();
+                              : const SizedBox();
                         });
                   } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");
                   } else {
-                    return Center(
-                      child: const Text(
+                    return const Center(
+                      child: Text(
                         "No available data",
                         style: TextStyle(
                           fontFamily: 'Segoe UI',

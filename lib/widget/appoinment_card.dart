@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:servicehubprovider/Colors.dart';
-import 'package:servicehubprovider/screen/PendingAppoinmentInfoScreen.dart';
-import 'package:servicehubprovider/screen/appoinment_info_screen.dart';
-import 'package:servicehubprovider/screen/past_appoinment_info_screen.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
+import 'package:servicehubprovider/screen/appoinments/PendingAppoinmentInfoScreen.dart';
+import 'package:servicehubprovider/screen/appoinments/appoinment_info_screen.dart';
+import 'package:servicehubprovider/screen/appoinments/past_appoinment_info_screen.dart';
 
 class AppoinmentCard extends StatelessWidget {
   const AppoinmentCard(

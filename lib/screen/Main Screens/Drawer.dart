@@ -1,25 +1,20 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/Notifications/Notification_forground.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
-import 'package:servicehubprovider/screen/TransactionScreen.dart';
-import 'package:servicehubprovider/screen/appontment_screen.dart';
-import 'package:servicehubprovider/screen/cash_screen.dart';
-import 'package:servicehubprovider/screen/contact_screen.dart';
-import 'package:servicehubprovider/screen/faq_screen.dart';
-import 'package:servicehubprovider/Notifications/getfcm.dart';
-import 'package:servicehubprovider/screen/home_screen.dart';
-import 'package:servicehubprovider/screen/login_screen.dart';
-import 'package:servicehubprovider/screen/profile_screen.dart';
-import 'package:servicehubprovider/screen/terms_condition_screen.dart';
+import 'package:servicehubprovider/screen/payments/TransactionScreen.dart';
+import 'package:servicehubprovider/screen/Main%20Screens/appontment_screen.dart';
+import 'package:servicehubprovider/screen/Main%20Screens/contact_screen.dart';
+import 'package:servicehubprovider/screen/Main%20Screens/faq_screen.dart';
+import 'package:servicehubprovider/screen/Main%20Screens/home_screen.dart';
+import 'package:servicehubprovider/screen/onborading%20Screens/login_screen.dart';
+import 'package:servicehubprovider/screen/profile/profile_screen.dart';
+import 'package:servicehubprovider/screen/Main%20Screens/terms_condition_screen.dart';
 import 'package:servicehubprovider/widget/app_name_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../provider/auth_provider.dart';
+import '../../provider/auth_provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -43,29 +38,6 @@ class _MainScreenState extends State<MainScreen> {
     const LoginScreen(),
   ];
 
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to exit an App'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () =>
-                    Navigator.of(context).pop(false), //<-- SEE HERE
-                child: new Text('No'),
-              ),
-              TextButton(
-                onPressed: () =>
-                    Navigator.of(context).pop(true), // <-- SEE HERE
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        )) ??
-        false;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -73,38 +45,38 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //back option
-
     return Scaffold(
-      backgroundColor: white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: index == 0 ? navigationTop : white,
-        foregroundColor: darkText,
-        title: index == 0 ? const Text("Servicehub") : const Text(""),
-      ),
-      body: list[index],
-      drawer: MyDrawer(onTap: (lol, i) {
-        setState(() {
-          // index = i;
-          // Navigator.pop(lol);
-        });
-      }),
-    );
+        backgroundColor: white,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: index == 0 ? navigationTop : white,
+          foregroundColor: darkText,
+          title: index == 0 ? const Text("Servicehub") : const Text(""),
+        ),
+        body: list[index],
+        drawer: const MyDrawer());
   }
 }
 
 class MyDrawer extends StatefulWidget {
-  final Function onTap;
-
-  const MyDrawer({super.key, required this.onTap});
+  const MyDrawer({super.key});
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  //customer name get api
+
+
+   Apicontroller apicontroller = Apicontroller();
+  final fullNameControlleer = TextEditingController();
+
+
+  String customerid = '';
+  String fullname = '';
+  bool islog = false;
+  String id = '';
+  
 
 //user id get api
   getUserData() async {
@@ -129,15 +101,8 @@ class _MyDrawerState extends State<MyDrawer> {
           : fullname = "User Name";
     });
   }
-
-  final fullNameControlleer = TextEditingController();
-  String customerid = '';
-  String fullname = '';
-
-  Apicontroller apicontroller = Apicontroller();
-  bool islog = false;
-
-  String id = '';
+ 
+ 
   @override
   void initState() {
     looged();
@@ -215,7 +180,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MainScreen(),
+                      builder: (context) => const MainScreen(),
                     )),
               ),
               ListTile(
@@ -254,7 +219,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProfileScreen(),
+                          builder: (context) => const ProfileScreen(),
                         ));
                   }),
               ListTile(
@@ -272,7 +237,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ContactScreen(),
+                        builder: (context) => const ContactScreen(),
                       ))),
               ListTile(
                   leading: const Icon(Icons.money, color: kPrimary),
@@ -290,7 +255,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TransactionScreen(),
+                          builder: (context) => const TransactionScreen(),
                         ));
                   }),
               ListTile(
@@ -308,7 +273,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FaqScreen(),
+                      builder: (context) => const FaqScreen(),
                     )),
               ),
               ListTile(
@@ -327,7 +292,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => TermsConditionScreen(),
+                      builder: (context) => const TermsConditionScreen(),
                     )),
               ),
               ListTile(
@@ -346,7 +311,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     // ignore: use_build_context_synchronously
 
                     Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
                         (route) => false);
                     final prefs = await SharedPreferences.getInstance();
                     prefs.clear();

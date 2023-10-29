@@ -1,62 +1,33 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
-import 'package:servicehubprovider/model/PastAppoinments.dart';
 import 'package:servicehubprovider/model/PendingAppoiments.dart';
 import 'package:servicehubprovider/model/QuiedAppoiment.dart';
-import 'package:servicehubprovider/screen/main_screen.dart';
-
+import 'package:servicehubprovider/screen/appoinments/all_upcoming_appoiments.dart';
+import 'package:servicehubprovider/screen/appoinments/allnewAppoinments.dart';
 import 'package:servicehubprovider/utils/constant.dart';
+import 'package:servicehubprovider/widget/appoinment_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-import 'package:servicehubprovider/Colors.dart';
-import 'package:servicehubprovider/widget/appoinment_card.dart';
 
-class AppointmentScreen extends StatefulWidget {
-  AppointmentScreen({super.key, required this.swiched});
-  bool swiched;
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<AppointmentScreen> createState() => _AppointmentScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _AppointmentScreenState extends State<AppointmentScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   Apicontroller apicontroller = Apicontroller();
 
-  String providerid = "";
-  getUserData() async {
-    final ids = await SharedPreferences.getInstance();
-    final idss = await SharedPreferences.getInstance();
-
-    print("getcustomerdata called " + ids.getString('full_name').toString());
-    setState(() {
-      ids.getString("id").toString().isNotEmpty
-          ? providerid = ids.getString("id").toString()
-          : providerid = idss.getString("id").toString();
-    });
-
-    print("my id is " + providerid);
-
-    apicontroller.getproviderdetails(providerid);
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    getUserData();
-    super.initState();
-  }
-
-  List<PastApoinmentList> pastapoinmentlist = [];
-  Future<List<PastApoinmentList>> getpastappinments(String id) async {
-    pastapoinmentlist.clear();
+  List<QueiedApoinmentList> apoinmentlist = [];
+  Future<List<QueiedApoinmentList>> getQueiedApoiment(String id) async {
+    apoinmentlist.clear();
     var url = Uri.parse(
         // ignore: prefer_interpolation_to_compose_strings
-        constant.APPEND_URL + "provider-completed-appointments?id=$id");
+        constant.APPEND_URL + "queued-appointments?id=$id");
     final response = await http.get(url);
     print(response.body);
     var data = json.decode(response.body);
@@ -64,16 +35,16 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       // If the server returns a 200 OK response, parse the JSON
       print('load sucess');
 
-      final appontment = pastApoinmentListFromJson(response.body);
+      final appontment = queiedApoinmentListFromJson(response.body);
 
       print("appointment " + appontment.length.toString());
 
-      pastapoinmentlist.addAll(appontment);
+      apoinmentlist.addAll(appontment);
       print(response.body);
 
-      return pastapoinmentlist;
+      return apoinmentlist;
     } else {
-      return pastapoinmentlist;
+      return apoinmentlist;
 
       throw Exception('Failed to load data');
     }
@@ -107,72 +78,80 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     }
   }
 
+  String providerid = "";
+  String service_category_id = "";
+  getUserData() async {
+    final ids = await SharedPreferences.getInstance();
+    final idss = await SharedPreferences.getInstance();
+
+    print("getcustomerdata called " + ids.getString('full_name').toString());
+    setState(() {
+      ids.getString("id").toString().isNotEmpty
+          ? providerid = ids.getString("id").toString()
+          : providerid = idss.getString("id").toString();
+      apicontroller.getproviderdetails(providerid);
+
+      service_category_id = idss.getString("servicecatergoryid").toString();
+    });
+
+    print("my id is " + providerid);
+    print("my service is " + service_category_id);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getUserData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.swiched
-          ? AppBar(
-              elevation: 0,
-              //leadingWidth: 30,
-              titleSpacing: 0,
-              backgroundColor: white,
-              foregroundColor: Colors.black,
-              leading: Padding(
-                padding: const EdgeInsets.only(left: 22),
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.black,
-                    size: 24,
-                  ),
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MainScreen(),
-                      )),
-                ),
-              ),
-              title: const Text('Back'),
-              actions: const [
-                // Padding(
-                //   padding: EdgeInsets.only(top: 10, right: 25),
-                //   child: Text(
-                //     'Cancel',
-                //     style: TextStyle(
-                //       fontFamily: 'Segoe UI',
-                //       fontSize: 22.0,
-                //       color: Color(0xFFEA4600),
-                //       fontWeight: FontWeight.w600,
-                //     ),
-                //   ),
-                // ),
-              ],
-            )
-          : null,
       backgroundColor: white,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 0),
+        padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.swiched
-                ? SizedBox(
-                    height: 0,
-                  )
-                : SizedBox(
-                    height: 40,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'New requests',
+                  style: TextStyle(
+                    fontFamily: 'Segoe UI',
+                    fontSize: 20.0,
+                    color: darkText,
+                    fontWeight: FontWeight.w700,
                   ),
-            const Text(
-              'My Appoinments',
-              style: screenTitle,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AllnewAppoinments(),
+                        ));
+                  },
+                  child: Text(
+                    'View All',
+                    style: TextStyle(
+                      fontFamily: 'Segoe UI',
+                      fontSize: 10.0,
+                      color: darkText,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(
-              height: 10,
+            const SizedBox(
+              height: 12,
             ),
             FutureBuilder(
-                future: getPendingApoiment(providerid.toString()),
+                future: getQueiedApoiment(service_category_id.toString()),
                 builder: (context,
-                    AsyncSnapshot<List<PendingApoinmentList>> snapshot) {
+                    AsyncSnapshot<List<QueiedApoinmentList>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: const CircularProgressIndicator());
                   } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
@@ -185,7 +164,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         itemBuilder: (context, index) {
                           return AppoinmentCard(
                             index: index,
-                            isPending: true,
+                            isPending: false,
                             addressType: snapshot
                                 .data![index].customerAddress.addressType
                                 .toString(),
@@ -217,35 +196,58 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   }
                 }),
             const SizedBox(
-              height: 27,
+              height: 22,
             ),
-            const Text(
-              'Past Appointments',
-              style: TextStyle(
-                fontFamily: 'Segoe UI',
-                fontSize: 20.0,
-                color: darkText,
-                fontWeight: FontWeight.w700,
-              ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Upcoming Appoinments',
+                  style: TextStyle(
+                    fontFamily: 'Segoe UI',
+                    fontSize: 20.0,
+                    color: darkText,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AllupcomingAppoinments(),
+                        ));
+                  },
+                  child: Text(
+                    'View All',
+                    style: TextStyle(
+                      fontFamily: 'Segoe UI',
+                      fontSize: 10.0,
+                      color: darkText,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 12,
             ),
             FutureBuilder(
-                future: getpastappinments(providerid.toString()),
-                builder:
-                    (context, AsyncSnapshot<List<PastApoinmentList>> snapshot) {
+                future: getPendingApoiment(providerid.toString()),
+                builder: (context,
+                    AsyncSnapshot<List<PendingApoinmentList>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: const CircularProgressIndicator());
                   } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                    final itemCount =
-                        snapshot.data!.length > 5 ? 5 : snapshot.data!.length;
                     return ListView.builder(
-                        itemCount: itemCount,
+                        itemCount: snapshot.data!.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return AppoinmentCard(
                             index: index,
                             isPending: true,
-                            isPast: true,
                             addressType: snapshot
                                 .data![index].customerAddress.addressType
                                 .toString(),
@@ -255,10 +257,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                 .toString(),
                             price: snapshot.data![index].estimatedBudget
                                 .toString(),
-                            time: DateFormat('hh:mm')
-                                .format(
-                                    snapshot.data![index].appointmentDateTime)
-                                .toString(),
+                            time: DateFormat('hh:mm').format(
+                                snapshot.data![index].appointmentDateTime),
                             work: snapshot.data![index].serviceCategory.name
                                 .toString(),
                           );

@@ -64,8 +64,9 @@ dependencies:
   get: ^4.6.5
   fluttertoast: ^8.2.1
   location: ^4.4.0
-  material_color_utilities: ^0.2.0
+  material_color_utilities: ^0.1.5
   permission_handler: ^10.2.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

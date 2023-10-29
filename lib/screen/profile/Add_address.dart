@@ -6,11 +6,8 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:lottie/lottie.dart';
-
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
-import 'package:servicehubprovider/screen/main_screen.dart';
-import 'package:servicehubprovider/screen/profile_screen.dart';
 import 'package:servicehubprovider/widget/rounded_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,10 +43,11 @@ class _AddNewAdrressScreenState extends State<AddNewAdrressScreen> {
   String googleApikey = "AIzaSyCiBivWTYU4Vc6PnlOQXGJBHOcpPNiFLmA";
   GoogleMapController? mapController; //contrller for Google map
   CameraPosition? cameraPosition;
-  LatLng startLocation = LatLng(7.8731, 80.7718);
+  LatLng startLocation = const LatLng(7.8731, 80.7718);
   String location = "Search Location";
   Position? currentPosition; // Add this line
 
+//Get User Id
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
     id = ids.getString("id").toString();
@@ -157,7 +155,8 @@ class _AddNewAdrressScreenState extends State<AddNewAdrressScreen> {
                         //form google_maps_webservice package
                         final plist = GoogleMapsPlaces(
                           apiKey: googleApikey,
-                          apiHeaders: await GoogleApiHeaders().getHeaders(),
+                          apiHeaders:
+                              await const GoogleApiHeaders().getHeaders(),
                           //from google_api_headers package
                         );
                         String placeid = place.placeId ?? "0";
@@ -175,18 +174,18 @@ class _AddNewAdrressScreenState extends State<AddNewAdrressScreen> {
                       }
                     },
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: Card(
                         child: Container(
-                          padding: EdgeInsets.all(0),
+                          padding: const EdgeInsets.all(0),
                           width: MediaQuery.of(context).size.width - 40,
                           child: ListTile(
                             leading: Lottie.asset("assets/pin.json"),
                             title: Text(
                               location,
-                              style: TextStyle(fontSize: 18),
+                              style: const TextStyle(fontSize: 18),
                             ),
-                            trailing: Icon(Icons.search),
+                            trailing: const Icon(Icons.search),
                             dense: true,
                           ),
                         ),
@@ -272,27 +271,7 @@ class _AddNewAdrressScreenState extends State<AddNewAdrressScreen> {
                           await addressdetails.setString(
                               'long', logitude.toString());
 
-                          // showDialog(
-                          //   context: context,
-                          //   builder: (BuildContext context) {
-                          //     return AlertDialog(
-                          //       title: Text('Address Create Successful'),
-                          //       actions: <Widget>[
-                          //         ElevatedButton(
-                          //           child: const Text('OK'),
-                          //           onPressed: () {
-                          //             Navigator.push(
-                          //                 context,
-                          //                 MaterialPageRoute(
-                          //                   builder: (context) => MainScreen(),
-                          //                 ));
-                          //           },
-                          //         ),
-                          //       ],
-                          //     );
-                          //   },
-                          // );
-
+                          // ignore: use_build_context_synchronously
                           apicontroller.updateProviderDetails(
                               widget.providerid,
                               widget.fullname,

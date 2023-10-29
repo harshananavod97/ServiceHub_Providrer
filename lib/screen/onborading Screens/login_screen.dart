@@ -1,15 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
-import 'package:servicehubprovider/provider/auth_provider.dart';
-import 'package:servicehubprovider/screen/main_screen.dart';
-import 'package:servicehubprovider/screen/register_screen.dart';
+import 'package:servicehubprovider/screen/onborading%20Screens/register_screen.dart';
 import 'package:servicehubprovider/widget/app_name_widget.dart';
 import 'package:servicehubprovider/widget/rounded_button.dart';
-import 'package:servicehubprovider/widget/social_media_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,15 +14,27 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  AutovalidateMode switched = AutovalidateMode.disabled;
-  final _phnnoformKey = GlobalKey<FormState>();
-  String phone_number = '', email = '', full_name = '';
-  Apicontroller apicontroller = Apicontroller();
-  final phoneFocusNode = FocusNode();
   final phoneNumberControlleer = TextEditingController();
+  Apicontroller apicontroller = Apicontroller();
+
+  final _phnnoformKey = GlobalKey<FormState>();
+
+  final phoneFocusNode = FocusNode();
+
+  AutovalidateMode switched = AutovalidateMode.disabled;
+
+  String email = '';
+
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    phoneNumberControlleer.dispose();
+    super.dispose();
   }
 
   @override
@@ -107,9 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     RoundedButton(
                       buttonText: 'Login',
                       onPress: () {
-                        setState(() {
-                          switched = AutovalidateMode.always;
-                        });
+                        setState(() {});
                         if (_phnnoformKey.currentState!.validate()) {
                           apicontroller.otpgenarate(
                               phoneNumberControlleer.text, context);
@@ -150,40 +155,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       height: 250,
                     ),
-                    // const Text(
-                    //   'Or Continue with',
-                    //   style: TextStyle(
-                    //       fontFamily: 'Segoe UI',
-                    //       fontSize: 15,
-                    //       fontWeight: FontWeight.w700,
-                    //       color: darkText),
-                    // ),
-                    // const SizedBox(
-                    //   height: 25,
-                    // ),
-                    // SocialMediaButtons(
-                    //   buttontext: 'Facebook',
-                    //   img: 'fb.png',
-                    //   buttonBackground: white,
-                    //   textColor: kPrimary,
-                    //   onPress: () async {
-                    //     await Provider.of<AuthProvider>(context, listen: false)
-                    //         .signInWithFacebook(context);
-                    //   },
-                    // ),
-                    // const SizedBox(
-                    //   height: 17,
-                    // ),
-                    // SocialMediaButtons(
-                    //   buttontext: 'Google',
-                    //   img: 'google.png',
-                    //   buttonBackground: white,
-                    //   textColor: kPrimary,
-                    //   onPress: () async {
-                    //     await Provider.of<AuthProvider>(context, listen: false)
-                    //         .googleAuth(context);
-                    //   },
-                    // ),
                   ],
                 ),
               ),

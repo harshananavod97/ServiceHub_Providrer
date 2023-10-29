@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:flutter/material.dart';
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
 import 'package:servicehubprovider/model/PastAppoinments.dart';
 import 'package:servicehubprovider/utils/constant.dart';

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
-import 'package:servicehubprovider/screen/main_screen.dart';
 import 'package:servicehubprovider/styles.dart';
 import 'package:servicehubprovider/widget/rounded_button.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../Colors.dart';
+import '../../utils/Colors.dart';
 
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen(

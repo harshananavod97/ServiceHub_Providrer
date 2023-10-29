@@ -3,21 +3,17 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:servicehubprovider/Notifications/Notification_forground.dart';
 import 'package:servicehubprovider/Notifications/getfcm.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
-
 import 'package:servicehubprovider/firebase_options.dart';
 import 'package:servicehubprovider/provider/auth_provider.dart';
-import 'package:servicehubprovider/screen/NotificationScreen.dart';
-import 'package:servicehubprovider/screen/TransactionScreen.dart';
-import 'package:servicehubprovider/screen/cash_screen.dart';
-
-import 'package:servicehubprovider/screen/splash_screen.dart';
+import 'package:servicehubprovider/screen/payments/cash_screen.dart';
+import 'package:servicehubprovider/screen/onborading%20Screens/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+//push notification Background handle
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -65,6 +61,8 @@ Future<void> main() async {
         );
       }
     });
+
+    //onapp notification
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print("open it");

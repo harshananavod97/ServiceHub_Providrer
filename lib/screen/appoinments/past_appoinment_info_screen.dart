@@ -9,7 +9,7 @@ import 'package:servicehubprovider/widget/Rate_Experience.dart';
 import 'package:servicehubprovider/widget/rounded_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 
 class PastAppoinmentInfoScreen extends StatefulWidget {
   const PastAppoinmentInfoScreen({super.key, required this.index});
@@ -21,6 +21,13 @@ class PastAppoinmentInfoScreen extends StatefulWidget {
 }
 
 class _PastAppoinmentInfoScreenState extends State<PastAppoinmentInfoScreen> {
+
+Apicontroller apicontroller = Apicontroller();
+
+
+  //Get Fcm key 
+
+
   String fcmkey = "";
   getcustomerdata() async {
     final customerdetails = await SharedPreferences.getInstance();
@@ -30,7 +37,8 @@ class _PastAppoinmentInfoScreenState extends State<PastAppoinmentInfoScreen> {
     print("fcm key is = " + fcmkey);
   }
 
-  Apicontroller apicontroller = Apicontroller();
+  
+//load prider id
 
   String providerid = "";
   getUserData() async {
@@ -49,13 +57,7 @@ class _PastAppoinmentInfoScreenState extends State<PastAppoinmentInfoScreen> {
     apicontroller.getproviderdetails(providerid);
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    getUserData();
-
-    super.initState();
-  }
+//load Past Appoinments Lis
 
   List<PastApoinmentList> pastapoinmentlist = [];
   Future<List<PastApoinmentList>> getpastappinments(String id) async {
@@ -85,6 +87,16 @@ class _PastAppoinmentInfoScreenState extends State<PastAppoinmentInfoScreen> {
     }
   }
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getUserData();
+
+    super.initState();
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

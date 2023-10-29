@@ -1,27 +1,15 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
-
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
-import 'package:servicehubprovider/screen/Add_address.dart';
-import 'package:servicehubprovider/screen/verification_screen.dart';
+import 'package:servicehubprovider/screen/profile/Add_address.dart';
+import 'package:servicehubprovider/screen/profile/verification_screen.dart';
 import 'package:servicehubprovider/utils/Custom_Text.dart';
-import 'package:servicehubprovider/utils/constant.dart';
-import 'package:servicehubprovider/utils/image_picker.dart';
 import 'package:servicehubprovider/widget/rounded_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../controller/image_controller.dart';
+import '../../controller/image_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -31,23 +19,48 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+
+  final _emailformKey = GlobalKey<FormState>();
+  final _fullnameformKey = GlobalKey<FormState>();
+  final _phonenoformKey = GlobalKey<FormState>();
+  final _nicformKey = GlobalKey<FormState>();
+  final _descriptionformKey = GlobalKey<FormState>();
+
+ 
+
+ Apicontroller apicontroller = Apicontroller();
+  final fullNameControlleer = TextEditingController();
+  final phoneNumberControlleer = TextEditingController();
+  final niccontroller = TextEditingController();
+  final emailControlleer = TextEditingController();
+  final cityControlleer = TextEditingController();
+  final address1Controlleer = TextEditingController();
+  final address2Controlleer = TextEditingController();
+  final servicecatergoryidcontrooller = TextEditingController();
+  final descriptionControlleer = TextEditingController();
+  final latControlleer = TextEditingController();
+  final ingControlleer = TextEditingController();
+  AutovalidateMode switched = AutovalidateMode.disabled;
+
   String address1 = '', address2 = '', city = '', latitude = '', logitude = '';
-
-  List data = [];
-  int _value = 1;
-  getdata() async {
-    final res = await http
-        .get(Uri.parse(constant.APPEND_URL + 'service-category-name'));
-    data = jsonDecode(res.body);
-
-    setState(() {});
-  }
-
-  Apicontroller apicontroller = Apicontroller();
   bool _isButtonOn = true;
   bool _readonly = true;
   String providerid = "";
   String profilepic = "";
+
+  List data = [];
+
+  File? _image;
+  PickedFile? _pickedFile;
+  
+
+
+ 
+
+ 
+  //get user Id
+
   getUserData() async {
     final ids = await SharedPreferences.getInstance();
     final idss = await SharedPreferences.getInstance();
@@ -62,6 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     apicontroller.getproviderdetails(providerid);
   }
 
+//Get provider Name Email and address
   getproviderrdata() async {
     final providerdetails = await SharedPreferences.getInstance();
 
@@ -88,9 +102,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           providerdetails.getString('address2').toString();
       descriptionControlleer.text =
           providerdetails.getString('description').toString();
-      ServicecatergoryIdControlleer.text =
+      servicecatergoryidcontrooller.text =
           providerdetails.getString('servicecatergoryid').toString();
-      NicControlleer.text = providerdetails.getString('nic').toString();
+      niccontroller.text = providerdetails.getString('nic').toString();
       profilepic = providerdetails.getString('profile_pic').toString();
       ingControlleer.text = providerdetails.getString('ing').toString();
       latControlleer.text = providerdetails.getString('lat').toString();
@@ -110,8 +124,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  File? _image;
-  PickedFile? _pickedFile;
+ 
+
+  //image Picker method
+
+
   final _picker = ImagePicker();
   // Implementing the image picker
   Future<void> _pickImage() async {
@@ -123,31 +140,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  final CarouselController _controller = CarouselController();
-  int _current = 0;
-
-  final _emailformKey = GlobalKey<FormState>();
-  final _fullnameformKey = GlobalKey<FormState>();
-  final _phonenoformKey = GlobalKey<FormState>();
-  final _nicformKey = GlobalKey<FormState>();
-  final _address1formKey = GlobalKey<FormState>();
-  final _address2formKey = GlobalKey<FormState>();
-  final _servicecategoryidformKey = GlobalKey<FormState>();
-  final _cityformKey = GlobalKey<FormState>();
-  final _descriptionformKey = GlobalKey<FormState>();
-
-  final fullNameControlleer = TextEditingController();
-  final phoneNumberControlleer = TextEditingController();
-  final NicControlleer = TextEditingController();
-  final emailControlleer = TextEditingController();
-  final cityControlleer = TextEditingController();
-  final address1Controlleer = TextEditingController();
-  final address2Controlleer = TextEditingController();
-  final ServicecatergoryIdControlleer = TextEditingController();
-  final descriptionControlleer = TextEditingController();
-  final latControlleer = TextEditingController();
-  final ingControlleer = TextEditingController();
-  AutovalidateMode switched = AutovalidateMode.disabled;
+  
+ 
 
   final fullNameFocusNode = FocusNode();
   final phoneNumberFocusNode = FocusNode();
@@ -155,9 +149,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final NicFocusNode = FocusNode();
 
   final cityFocusNode = FocusNode();
-  final Address1FocusNode = FocusNode();
-  final Address2FocusNode = FocusNode();
-  final ServiceCatergoryIdFocusNode = FocusNode();
+  final address1Focusnode = FocusNode();
+  final address2FocusNode = FocusNode();
+  final servicecatergoryIdFocusNode = FocusNode();
   final DescriptionFocusNode = FocusNode();
 
   @override
@@ -169,18 +163,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     fullNameControlleer.dispose();
     phoneNumberControlleer.dispose();
     emailControlleer.dispose();
-    NicControlleer.dispose();
+    niccontroller.dispose();
     NicFocusNode.dispose();
     address1Controlleer.dispose();
     address2Controlleer.dispose();
     cityControlleer.dispose();
-    ServicecatergoryIdControlleer.dispose();
+    servicecatergoryidcontrooller.dispose();
     descriptionControlleer.dispose();
     DescriptionFocusNode.dispose();
-    Address1FocusNode.dispose();
-    Address2FocusNode.dispose();
+    address1Focusnode.dispose();
+    address2FocusNode.dispose();
     cityFocusNode.dispose();
-    ServiceCatergoryIdFocusNode.dispose();
+    servicecatergoryIdFocusNode.dispose();
   }
 
   @override
@@ -192,6 +186,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     super.initState();
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -205,12 +202,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: GetBuilder<ImageController>(builder: (imageController) {
           return SafeArea(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     const Text(
@@ -235,11 +232,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           top: 10, bottom: 20, left: 60, right: 60),
                       child: RoundedButton(
                           buttonText: "Upload Photo",
@@ -286,7 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(
+                    const Text(
                       "Phone Number",
                       style: labelText,
                     ),
@@ -387,7 +384,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                           return null;
                         },
-                        controller: NicControlleer,
+                        controller: niccontroller,
                         keyboardType: TextInputType.text,
                         focusNode: NicFocusNode,
                         style: const TextStyle(
@@ -416,10 +413,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       desc: descriptionControlleer.text,
                                       email: emailControlleer.text,
                                       fullname: fullNameControlleer.text,
-                                      nic: NicControlleer.text,
+                                      nic: niccontroller.text,
                                       providerid: providerid,
                                       serviceid:
-                                          ServicecatergoryIdControlleer.text,
+                                          servicecatergoryidcontrooller.text,
                                       phonenumber: phoneNumberControlleer.text,
                                     )),
                             (route) => false);
@@ -464,7 +461,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
 
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     inputField('Description', emailControlleer,
@@ -498,7 +495,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         decoration: formInputStyle,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     _isButtonOn
@@ -529,41 +526,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         .getString('phone_number')
                                         .toString() ==
                                     phoneNumberControlleer.text) {
+                                  // ignore: use_build_context_synchronously
                                   apicontroller.updateProviderDetails(
                                       providerid.toString(),
                                       fullNameControlleer.text,
                                       emailControlleer.text,
                                       phoneNumberControlleer.text,
-                                      NicControlleer.text,
+                                      niccontroller.text,
                                       address1Controlleer.text,
                                       address2Controlleer.text,
                                       cityControlleer.text,
-                                      ServicecatergoryIdControlleer.text,
+                                      servicecatergoryidcontrooller.text,
                                       descriptionControlleer.text,
                                       '123456',
                                       latControlleer.text,
                                       ingControlleer.text,
                                       context);
                                 } else {
+                                  // ignore: use_build_context_synchronously
                                   apicontroller.updateProviderDetails(
                                       providerid.toString(),
                                       fullNameControlleer.text,
                                       emailControlleer.text,
                                       phoneNumberControlleer.text,
-                                      NicControlleer.text,
+                                      niccontroller.text,
                                       address1Controlleer.text,
                                       address2Controlleer.text,
                                       cityControlleer.text,
-                                      ServicecatergoryIdControlleer.text,
+                                      servicecatergoryidcontrooller.text,
                                       descriptionControlleer.text,
                                       latControlleer.text,
                                       ingControlleer.text,
                                       '123456',
                                       context);
 
+                                  // ignore: use_build_context_synchronously
                                   await apicontroller.otpgenarate(
                                       phoneNumberControlleer.text, context);
 
+                                  // ignore: use_build_context_synchronously
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -580,7 +581,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 _toggleButton();
                               }
                             }),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   ],

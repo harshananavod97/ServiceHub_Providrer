@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 
 
 class RoundedBorderButton extends StatelessWidget {

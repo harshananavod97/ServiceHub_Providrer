@@ -1,24 +1,25 @@
 // ignore_for_file: non_constant_identifier_names, avoid_print
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
-import 'package:servicehubprovider/screen/appoinment_complete_screen.dart';
-
-import 'package:servicehubprovider/screen/login_screen.dart';
-import 'package:servicehubprovider/screen/main_screen.dart';
+import 'package:servicehubprovider/screen/appoinments/appoinment_complete_screen.dart';
+import 'package:servicehubprovider/screen/onborading%20Screens/login_screen.dart';
+import 'package:servicehubprovider/screen/Main%20Screens/Drawer.dart';
 import 'package:servicehubprovider/utils/Navigation_Function.dart';
 import 'package:servicehubprovider/utils/constant.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
+import '../screen/profile/verification_screen.dart';
 
-import '../screen/verification_screen.dart';
+
+
+
 
 class Apicontroller {
   // ignore: duplicate_ignore
+
+//Register 
+
   register(
       String email,
       full_name,
@@ -32,8 +33,7 @@ class Apicontroller {
       password,
       fcm,
       BuildContext context) async {
-    // final details = await SharedPreferences.getInstance();
-    // final detailss = await SharedPreferences.getInstance();
+    
 
     Map data = {
       'email': email,
@@ -114,6 +114,11 @@ class Apicontroller {
     }
   }
 
+
+
+  //Get provider Details
+
+
   getproviderdetails(String id) async {
     final providerdetails = await SharedPreferences.getInstance();
     //replace your restFull API here.
@@ -173,9 +178,12 @@ class Apicontroller {
     print(email);
     print(phonenumber);
 
-    //Creating a list to store input data;
+
+
 
     //get customer details  (my profile read only)
+
+
     getcustomerdetails(String id, BuildContext context) async {
       final customerdetails = await SharedPreferences.getInstance();
       final prefs = await SharedPreferences.getInstance();
@@ -196,6 +204,9 @@ class Apicontroller {
       await customerdetails.setString('fcm_key', fcmkey);
     }
   }
+
+
+  //Update Provider
 
   updateProviderDetails(
       String id,
@@ -291,6 +302,9 @@ class Apicontroller {
       // NavigationUtillfunction.navigateTo(context, MainScreen());
     }
   }
+
+
+  //Facebook Google Register
 
   fbgoogleregister(
       String email,
@@ -389,7 +403,12 @@ class Apicontroller {
     }
   }
 
-//otp genrate
+
+
+
+//otp genrate 
+
+
   otpgenarate(String phone_number, BuildContext context) async {
     final idss = await SharedPreferences.getInstance();
     Map data = {
@@ -480,7 +499,11 @@ class Apicontroller {
     }
   }
 
+
+
 //"Validate OTP
+
+
   validateotp(String id, String otp, BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -542,6 +565,9 @@ class Apicontroller {
     }
   }
 
+
+//Create Request 
+
   CreateRequest(String service_provider_id, job_id, estimated_time,
       estimated_budget, comment, BuildContext context) async {
     Map data = {
@@ -598,6 +624,12 @@ class Apicontroller {
       );
     }
   }
+
+
+  //Upadate Reqest
+
+
+
 
   UpadateRequest(String id, service_provider_id, job_id, estimated_time,
       estimated_budget, comment, approval, BuildContext context) async {
@@ -657,6 +689,9 @@ class Apicontroller {
     }
   }
 
+
+  //Send Push Notification
+
   SendPushNotification(
       String fcmkey, String title, String message, type) async {
     Map data = {
@@ -691,6 +726,10 @@ class Apicontroller {
     }
   }
 
+
+
+
+
 //provider Remove Him Self
 
   Future<void> Providerremovehimself(String id, BuildContext context) async {
@@ -708,6 +747,10 @@ class Apicontroller {
       print('Failed to delete request.');
     }
   }
+
+
+
+  //Provider Fcm Key Update
 
   ProviderFcmKeyUpdate(String provider_id, String fcm_key) async {
     Map data = {'provider_id': provider_id, 'fcm_key': fcm_key};
@@ -734,7 +777,9 @@ class Apicontroller {
     }
   }
 
-//"Cash AceeptMessage"
+//"Cash Aceept Message"
+
+
   clientTosendCashAcceptMesage(String id, BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -774,6 +819,10 @@ class Apicontroller {
       // ignore: use_build_context_synchronously
     }
   }
+
+
+
+  //Get Customer Details
 
   getcustomerdetails(String id) async {
     final customerdetails = await SharedPreferences.getInstance();

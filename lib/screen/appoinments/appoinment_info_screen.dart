@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
 import 'package:servicehubprovider/model/PendingAppoiments.dart';
 import 'package:servicehubprovider/model/QuiedAppoiment.dart';
-import 'package:servicehubprovider/screen/Add_address.dart';
-import 'package:servicehubprovider/screen/appoinment_first_task_screen.dart';
-import 'package:servicehubprovider/screen/main_screen.dart';
+import 'package:servicehubprovider/screen/profile/Add_address.dart';
+import 'package:servicehubprovider/screen/appoinments/appoinment_first_task_screen.dart';
+import 'package:servicehubprovider/screen/Main%20Screens/Drawer.dart';
 import 'package:servicehubprovider/utils/Navigation_Function.dart';
 import 'package:servicehubprovider/utils/constant.dart';
 import 'package:servicehubprovider/widget/rounded_button.dart';

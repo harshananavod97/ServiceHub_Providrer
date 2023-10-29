@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 
 class AppNameWidget extends StatelessWidget {
   const AppNameWidget({super.key});

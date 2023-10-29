@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/Notifications/getfcm.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
 import 'package:servicehubprovider/styles.dart';
@@ -27,37 +27,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {});
   }
 
-  Apicontroller apicontroller = Apicontroller();
   final _emailformKey = GlobalKey<FormState>();
   final _fullnameformKey = GlobalKey<FormState>();
   final _phonenoformKey = GlobalKey<FormState>();
   final _nicformKey = GlobalKey<FormState>();
-  final _address1formKey = GlobalKey<FormState>();
-  final _address2formKey = GlobalKey<FormState>();
-  final _servicecategoryidformKey = GlobalKey<FormState>();
-  final _cityformKey = GlobalKey<FormState>();
   final _descriptionformKey = GlobalKey<FormState>();
 
+  Apicontroller apicontroller = Apicontroller();
   final fullNameControlleer = TextEditingController();
   final phoneNumberControlleer = TextEditingController();
-  final NicControlleer = TextEditingController();
+  final niccontroller = TextEditingController();
   final emailControlleer = TextEditingController();
   final cityControlleer = TextEditingController();
   final address1Controlleer = TextEditingController();
   final address2Controlleer = TextEditingController();
-  final ServicecatergoryIdControlleer = TextEditingController();
   final descriptionControlleer = TextEditingController();
+
   AutovalidateMode switched = AutovalidateMode.disabled;
 
   final fullNameFocusNode = FocusNode();
   final phoneNumberFocusNode = FocusNode();
   final emailFocusNode = FocusNode();
-  final NicFocusNode = FocusNode();
+  final nicFocusNode = FocusNode();
 
   final cityFocusNode = FocusNode();
-  final Address1FocusNode = FocusNode();
-  final Address2FocusNode = FocusNode();
-  final ServiceCatergoryIdFocusNode = FocusNode();
+
   final DescriptionFocusNode = FocusNode();
 
   @override
@@ -69,18 +63,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     fullNameControlleer.dispose();
     phoneNumberControlleer.dispose();
     emailControlleer.dispose();
-    NicControlleer.dispose();
-    NicFocusNode.dispose();
+    niccontroller.dispose();
+    nicFocusNode.dispose();
     address1Controlleer.dispose();
     address2Controlleer.dispose();
     cityControlleer.dispose();
-    ServicecatergoryIdControlleer.dispose();
     descriptionControlleer.dispose();
     DescriptionFocusNode.dispose();
-    Address1FocusNode.dispose();
-    Address2FocusNode.dispose();
+
     cityFocusNode.dispose();
-    ServiceCatergoryIdFocusNode.dispose();
   }
 
   @override
@@ -221,9 +212,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                       return null;
                     },
-                    controller: NicControlleer,
+                    controller: niccontroller,
                     keyboardType: TextInputType.text,
-                    focusNode: NicFocusNode,
+                    focusNode: nicFocusNode,
                     style: const TextStyle(
                         fontFamily: 'Segoe UI', fontSize: 20, color: lightText),
                     decoration: formInputStyle,
@@ -357,28 +348,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(
                   height: 8,
                 ),
-                // Form(
-                //   key: _servicecategoryidformKey,
-                //   autovalidateMode: switched,
-                //   child: TextFormField(
-                //     validator: (value) {
-                //       if (value == null || value.isEmpty) {
-                //         return 'Service Catergory Id is required';
-                //       }
 
-                //       if (value.length > 255) {
-                //         return 'Service Catergory Id cannot exceed 255 characters';
-                //       }
-                //       return null;
-                //     },
-                //     controller: ServicecatergoryIdControlleer,
-                //     keyboardType: TextInputType.number,
-                //     focusNode: ServiceCatergoryIdFocusNode,
-                //     style: const TextStyle(
-                //         fontFamily: 'Segoe UI', fontSize: 20, color: lightText),
-                //     decoration: formInputStyle,
-                //   ),
-                // ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -435,7 +405,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           descriptionControlleer.text,
                           "",
                           "",
-                          NicControlleer.text,
+                          niccontroller.text,
                           '123456',
                           fcmKey.toString(),
                           context);
@@ -479,13 +449,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 8,
         ),
-        // TextFormField(
-        //     controller: controller,
-        //     keyboardType: inputType,
-        //     focusNode: focusNode,
-        //     style: const TextStyle(
-        //         fontFamily: 'Segoe UI', fontSize: 20, color: lightText),
-        //     decoration: formInputStyle),
       ],
     );
   }

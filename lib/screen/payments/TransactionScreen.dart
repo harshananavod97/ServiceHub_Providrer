@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 import 'package:servicehubprovider/api/api_controller.dart';
 import 'package:servicehubprovider/model/PastAppoinments.dart';
 import 'package:servicehubprovider/model/TransactionDetails.dart';
@@ -76,31 +76,31 @@ class _TransactionScreenState extends State<TransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               const Text(
                 'Transactions',
                 style: screenTitle,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              TitleRow(),
+              const TitleRow(),
               FutureBuilder(
                 future: getpastappinments(providerid.toString()),
                 builder:
                     (context, AsyncSnapshot<List<PastApoinmentList>> snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.isEmpty) {
-                      return Center(
+                      return const Center(
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 15),
+                          padding: EdgeInsets.only(top: 15),
                           child: Text("no any transaction"),
                         ),
                       );
@@ -112,7 +112,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Row(
@@ -121,7 +121,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                   text: snapshot.data![index].jobPayment.jobId
                                       .toString(),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 SubTitle(
@@ -130,7 +130,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                           .data![index].jobPayment.createdAt)
                                       .toString(),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 SubTitle(
@@ -147,9 +147,9 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");
                   } else {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Center(child: const CircularProgressIndicator()),
+                    return const Padding(
+                      padding: EdgeInsets.only(top: 15),
+                      child: Center(child: CircularProgressIndicator()),
                     );
                   }
                 },
@@ -160,6 +160,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   }
 }
 
+//Sub values data
 class SubTitle extends StatelessWidget {
   SubTitle({
     super.key,
@@ -176,7 +177,7 @@ class SubTitle extends StatelessWidget {
       child: Center(
         child: Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Segoe UI',
             fontSize: 15.0,
             color: lightText,
@@ -188,6 +189,7 @@ class SubTitle extends StatelessWidget {
   }
 }
 
+//Title Table
 class TitleRow extends StatelessWidget {
   const TitleRow({
     super.key,
@@ -204,13 +206,13 @@ class TitleRow extends StatelessWidget {
           TitleTable(
             text: "Job Id",
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           TitleTable(
             text: "Job Date",
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           TitleTable(
@@ -240,7 +242,7 @@ class TitleTable extends StatelessWidget {
           child: Center(
             child: Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Segoe UI',
                 fontSize: 15.0,
                 color: Colors.white,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lottie/lottie.dart';
-import 'package:servicehubprovider/Colors.dart';
+import 'package:servicehubprovider/utils/Colors.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,6 +15,10 @@ class ContactScreen extends StatefulWidget {
 }
 
 class _ContactScreenState extends State<ContactScreen> {
+
+
+ final fullNameControlleer = TextEditingController();
+
   String googleApikey = "AIzaSyCiBivWTYU4Vc6PnlOQXGJBHOcpPNiFLmA";
   double latitude = 7.977079;
   double Longitude = 79.861244;
@@ -23,7 +27,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
   Position? currentPosition;
   final mapfocus = FocusNode();
-  final fullNameControlleer = TextEditingController();
+ 
   //get map controller to access map
   Completer<GoogleMapController> _googleMapController = Completer();
   CameraPosition? _cameraPosition;
@@ -34,7 +38,10 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //**********************email need to change *******************************************************************
+
+
+//**********************email need to change *******************************************************************
+
     String email = "contact@ouiquit.com";
 
     String? encodeQueryParameters(Map<String, String> params) {
@@ -54,6 +61,9 @@ class _ContactScreenState extends State<ContactScreen> {
         'subject': 'Example Subject & Symbols are allowed!',
       }),
     );
+
+
+
 // call make method
     Future<void> _makePhoneCall(String phoneNumber) async {
       final Uri launchUri = Uri(
@@ -62,6 +72,9 @@ class _ContactScreenState extends State<ContactScreen> {
       );
       await launchUrl(launchUri);
     }
+
+
+
 
     return Scaffold(
       body: Column(
